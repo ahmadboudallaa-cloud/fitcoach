@@ -22,28 +22,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/adherent/dashboard', function () {
-    if (auth()->user()->role !== 'adherent') {
-        return redirect()->route('dashboard');
-    }
-
     return view('dashboards.adherent');
-})->middleware(['auth', 'verified'])->name('adherent.dashboard');
+})->middleware(['auth', 'verified', 'role:adherent'])->name('adherent.dashboard');
 
 Route::get('/coach/dashboard', function () {
-    if (auth()->user()->role !== 'coach') {
-        return redirect()->route('dashboard');
-    }
-
     return view('dashboards.coach');
-})->middleware(['auth', 'verified'])->name('coach.dashboard');
+})->middleware(['auth', 'verified', 'role:coach'])->name('coach.dashboard');
 
 Route::get('/admin/dashboard', function () {
-    if (auth()->user()->role !== 'admin') {
-        return redirect()->route('dashboard');
-    }
-
     return view('dashboards.admin');
-})->middleware(['auth', 'verified'])->name('admin.dashboard');
+})->middleware(['auth', 'verified', 'role:admin'])->name('admin.dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
