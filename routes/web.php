@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CoachController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,9 +54,14 @@ Route::get('/admin/dashboard', function () {
     return view('dashboards.admin');
 })->middleware(['auth', 'verified', 'role:admin'])->name('admin.dashboard');
 
-Route::get('/admin/coachs', function () {
-    return view('admin.coachs');
-})->middleware(['auth', 'verified', 'role:admin'])->name('admin.coachs');
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('/admin/coachs', [CoachController::class, 'index'])->name('admin.coachs');
+    Route::get('/admin/coachs/create', [CoachController::class, 'create'])->name('admin.coachs.create');
+    Route::post('/admin/coachs', [CoachController::class, 'store'])->name('admin.coachs.store');
+    Route::get('/admin/coachs/{coach}/edit', [CoachController::class, 'edit'])->name('admin.coachs.edit');
+    Route::put('/admin/coachs/{coach}', [CoachController::class, 'update'])->name('admin.coachs.update');
+    Route::delete('/admin/coachs/{coach}', [CoachController::class, 'destroy'])->name('admin.coachs.destroy');
+});
 
 Route::get('/admin/seances', function () {
     return view('admin.seances');
