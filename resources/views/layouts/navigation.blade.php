@@ -41,6 +41,9 @@
                         <x-nav-link :href="route('admin.coachs')" :active="request()->routeIs('admin.coachs')">
                             Coachs
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.availabilities')" :active="request()->routeIs('admin.availabilities') || request()->routeIs('admin.availabilities.*')">
+                            Horaires
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.seances')" :active="request()->routeIs('admin.seances')">
                             Seances
                         </x-nav-link>
@@ -128,6 +131,9 @@
             @if (Auth::user()->role === 'admin')
                 <x-responsive-nav-link :href="route('admin.coachs')" :active="request()->routeIs('admin.coachs')">
                     Coachs
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.availabilities')" :active="request()->routeIs('admin.availabilities') || request()->routeIs('admin.availabilities.*')">
+                    Horaires
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.seances')" :active="request()->routeIs('admin.seances')">
                     Seances

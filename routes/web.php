@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CoachController;
+use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,13 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/coachs/{coach}/edit', [CoachController::class, 'edit'])->name('admin.coachs.edit');
     Route::put('/admin/coachs/{coach}', [CoachController::class, 'update'])->name('admin.coachs.update');
     Route::delete('/admin/coachs/{coach}', [CoachController::class, 'destroy'])->name('admin.coachs.destroy');
+
+    Route::get('/admin/horaires', [AvailabilityController::class, 'index'])->name('admin.availabilities');
+    Route::get('/admin/horaires/create', [AvailabilityController::class, 'create'])->name('admin.availabilities.create');
+    Route::post('/admin/horaires', [AvailabilityController::class, 'store'])->name('admin.availabilities.store');
+    Route::get('/admin/horaires/{availability}/edit', [AvailabilityController::class, 'edit'])->name('admin.availabilities.edit');
+    Route::put('/admin/horaires/{availability}', [AvailabilityController::class, 'update'])->name('admin.availabilities.update');
+    Route::delete('/admin/horaires/{availability}', [AvailabilityController::class, 'destroy'])->name('admin.availabilities.destroy');
 });
 
 Route::get('/admin/seances', function () {
