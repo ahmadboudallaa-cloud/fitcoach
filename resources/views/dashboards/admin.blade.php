@@ -7,11 +7,23 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    Bienvenue administrateur {{ Auth::user()->name }}.
-                    <br>
-                    Ici, l'admin pourra gerer les coachs, les seances et les statistiques.
+            <div class="grid gap-6 md:grid-cols-3">
+                <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+                    <h3 class="font-semibold text-gray-900">Coachs</h3>
+                    <p class="mt-2 text-sm text-gray-600">Ajouter ou modifier les coachs.</p>
+                    <a href="{{ route('admin.coachs') }}" class="mt-4 inline-block text-sm font-semibold text-indigo-600">Ouvrir</a>
+                </div>
+
+                <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+                    <h3 class="font-semibold text-gray-900">Seances</h3>
+                    <p class="mt-2 text-sm text-gray-600">Voir toutes les seances de la salle.</p>
+                    <a href="{{ route('admin.seances') }}" class="mt-4 inline-block text-sm font-semibold text-indigo-600">Ouvrir</a>
+                </div>
+
+                <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+                    <h3 class="font-semibold text-gray-900">Statistiques</h3>
+                    <p class="mt-2 text-sm text-gray-600">Suivre les chiffres importants.</p>
+                    <a href="{{ route('admin.statistiques') }}" class="mt-4 inline-block text-sm font-semibold text-indigo-600">Ouvrir</a>
                 </div>
             </div>
         </div>

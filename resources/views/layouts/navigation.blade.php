@@ -15,6 +15,39 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard') || request()->routeIs('adherent.dashboard') || request()->routeIs('coach.dashboard') || request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if (Auth::user()->role === 'adherent')
+                        <x-nav-link :href="route('adherent.reservation')" :active="request()->routeIs('adherent.reservation')">
+                            Reservation
+                        </x-nav-link>
+                        <x-nav-link :href="route('adherent.seances')" :active="request()->routeIs('adherent.seances')">
+                            Mes seances
+                        </x-nav-link>
+                        <x-nav-link :href="route('adherent.programme')" :active="request()->routeIs('adherent.programme')">
+                            Programme
+                        </x-nav-link>
+                    @endif
+
+                    @if (Auth::user()->role === 'coach')
+                        <x-nav-link :href="route('coach.planning')" :active="request()->routeIs('coach.planning')">
+                            Planning
+                        </x-nav-link>
+                        <x-nav-link :href="route('coach.adherents')" :active="request()->routeIs('coach.adherents')">
+                            Adherents
+                        </x-nav-link>
+                    @endif
+
+                    @if (Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('admin.coachs')" :active="request()->routeIs('admin.coachs')">
+                            Coachs
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.seances')" :active="request()->routeIs('admin.seances')">
+                            Seances
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.statistiques')" :active="request()->routeIs('admin.statistiques')">
+                            Statistiques
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +103,39 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard') || request()->routeIs('adherent.dashboard') || request()->routeIs('coach.dashboard') || request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (Auth::user()->role === 'adherent')
+                <x-responsive-nav-link :href="route('adherent.reservation')" :active="request()->routeIs('adherent.reservation')">
+                    Reservation
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('adherent.seances')" :active="request()->routeIs('adherent.seances')">
+                    Mes seances
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('adherent.programme')" :active="request()->routeIs('adherent.programme')">
+                    Programme
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()->role === 'coach')
+                <x-responsive-nav-link :href="route('coach.planning')" :active="request()->routeIs('coach.planning')">
+                    Planning
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('coach.adherents')" :active="request()->routeIs('coach.adherents')">
+                    Adherents
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()->role === 'admin')
+                <x-responsive-nav-link :href="route('admin.coachs')" :active="request()->routeIs('admin.coachs')">
+                    Coachs
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.seances')" :active="request()->routeIs('admin.seances')">
+                    Seances
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.statistiques')" :active="request()->routeIs('admin.statistiques')">
+                    Statistiques
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
