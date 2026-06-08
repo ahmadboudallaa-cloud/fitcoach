@@ -32,7 +32,14 @@
 
                         <div>
                             <x-input-label for="specialty" value="Specialite" />
-                            <x-text-input id="specialty" name="specialty" type="text" class="mt-1 block w-full" value="{{ old('specialty') }}" />
+                            <select id="specialty" name="specialty" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                <option value="">Choisir une specialite</option>
+                                @foreach ($specialties as $specialty)
+                                    <option value="{{ $specialty }}" @selected(old('specialty') === $specialty)>
+                                        {{ $specialty }}
+                                    </option>
+                                @endforeach
+                            </select>
                             <x-input-error :messages="$errors->get('specialty')" class="mt-2" />
                         </div>
 

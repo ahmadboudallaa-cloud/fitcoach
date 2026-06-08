@@ -24,7 +24,9 @@ class CoachController extends Controller
 
     public function create(): View
     {
-        return view('admin.coachs-create');
+        $specialties = $this->specialties();
+
+        return view('admin.coachs-create', compact('specialties'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -33,7 +35,7 @@ class CoachController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'specialty' => ['nullable', 'string', 'max:255'],
+            'specialty' => ['nullable', 'string', Rule::in($this->specialties())],
             'phone' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string'],
         ]);
@@ -62,8 +64,9 @@ class CoachController extends Controller
         }
 
         $coach->load('coachProfile');
+        $specialties = $this->specialties();
 
-        return view('admin.coachs-edit', compact('coach'));
+        return view('admin.coachs-edit', compact('coach', 'specialties'));
     }
 
     public function update(Request $request, User $coach): RedirectResponse
@@ -76,7 +79,7 @@ class CoachController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($coach->id)],
             'password' => ['nullable', 'string', 'min:8'],
-            'specialty' => ['nullable', 'string', 'max:255'],
+            'specialty' => ['nullable', 'string', Rule::in($this->specialties())],
             'phone' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string'],
         ]);
@@ -109,5 +112,21 @@ class CoachController extends Controller
         $coach->delete();
 
         return redirect()->route('admin.coachs')->with('success', 'Coach supprime avec succes.');
+    }
+
+    private function specialties(): array
+    {
+        return [
+            'Musculation',
+            'Cardio',
+            'Fitness',
+            'Yoga',
+            'Pilates',
+            'Crossfit',
+            'Nutrition',
+            'Perte de poids',
+            'Prise de masse',
+            'Reeducation sportive',
+        ];
     }
 }
