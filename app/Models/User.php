@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(CoachAvailability::class, 'coach_id');
     }
+
+    public function coachSessions(): HasMany
+    {
+        return $this->hasMany(CoachingSession::class, 'coach_id');
+    }
+
+    public function adherentSessions(): HasMany
+    {
+        return $this->hasMany(CoachingSession::class, 'adherent_id');
+    }
 }
