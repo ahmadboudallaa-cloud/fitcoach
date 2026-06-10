@@ -22,6 +22,28 @@
                         </div>
                     @endif
 
+                    <form method="GET" action="{{ route('admin.coachs') }}" class="mt-6 flex flex-col gap-3 md:flex-row md:items-end">
+                        <div class="w-full md:w-80">
+                            <x-input-label for="specialty" value="Recherche par specialite" />
+                            <select id="specialty" name="specialty" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                <option value="">Toutes les specialites</option>
+                                @foreach ($specialties as $specialty)
+                                    <option value="{{ $specialty }}" @selected($selectedSpecialty === $specialty)>
+                                        {{ $specialty }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <x-primary-button>Rechercher</x-primary-button>
+
+                        @if ($selectedSpecialty)
+                            <a href="{{ route('admin.coachs') }}" class="text-sm text-gray-600">
+                                Reinitialiser
+                            </a>
+                        @endif
+                    </form>
+
                     <div class="mt-6 overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="text-gray-600 border-b">

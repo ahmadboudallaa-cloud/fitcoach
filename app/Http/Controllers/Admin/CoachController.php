@@ -7,20 +7,29 @@ use App\Http\Requests\StoreCoachRequest;
 use App\Http\Requests\UpdateCoachRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 
 class CoachController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $specialties = $this->specialties();
+        $selectedSpecialty = $request->specialty;
+
         $coachs = User::with('coachProfile')
             ->where('role', 'coach')
+            ->when($selectedSpecialty, function ($query) use ($selectedSpecialty) {
+                $query->whereHas('coachProfile', function ($profileQuery) use ($selectedSpecialty) {
+                    $profileQuery->where('specialty', $selectedSpecialty);
+                });
+            })
             ->latest()
             ->get();
 
-        return view('admin.coachs', compact('coachs'));
+        return view('admin.coachs', compact('coachs', 'specialties', 'selectedSpecialty'));
     }
 
     public function create(): View
