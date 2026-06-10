@@ -10,17 +10,53 @@
             <div class="grid gap-6 md:grid-cols-3">
                 <div class="bg-white p-6 shadow-sm sm:rounded-lg">
                     <p class="text-sm text-gray-500">Taux de remplissage</p>
-                    <p class="mt-2 text-3xl font-bold text-gray-900">0%</p>
+                    <p class="mt-2 text-3xl font-bold text-gray-900">{{ $fillRate }}%</p>
                 </div>
 
                 <div class="bg-white p-6 shadow-sm sm:rounded-lg">
                     <p class="text-sm text-gray-500">Adherents actifs</p>
-                    <p class="mt-2 text-3xl font-bold text-gray-900">0</p>
+                    <p class="mt-2 text-3xl font-bold text-gray-900">{{ $totalAdherents }}</p>
                 </div>
 
                 <div class="bg-white p-6 shadow-sm sm:rounded-lg">
                     <p class="text-sm text-gray-500">Seances cette semaine</p>
-                    <p class="mt-2 text-3xl font-bold text-gray-900">0</p>
+                    <p class="mt-2 text-3xl font-bold text-gray-900">{{ $sessionsThisWeek }}</p>
+                </div>
+
+                <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+                    <p class="text-sm text-gray-500">Coachs</p>
+                    <p class="mt-2 text-3xl font-bold text-gray-900">{{ $totalCoachs }}</p>
+                </div>
+
+                <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+                    <p class="text-sm text-gray-500">Total seances</p>
+                    <p class="mt-2 text-3xl font-bold text-gray-900">{{ $totalSessions }}</p>
+                </div>
+
+                <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+                    <p class="text-sm text-gray-500">Plages horaires</p>
+                    <p class="mt-2 text-3xl font-bold text-gray-900">{{ $totalAvailabilities }}</p>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-white p-6 shadow-sm sm:rounded-lg">
+                <h3 class="text-lg font-semibold text-gray-900">Statut des seances</h3>
+
+                <div class="mt-6 grid gap-4 md:grid-cols-3">
+                    <div class="rounded-md border border-gray-200 p-4">
+                        <p class="text-sm text-gray-500">En attente</p>
+                        <p class="mt-2 text-2xl font-bold text-yellow-600">{{ $pendingSessions }}</p>
+                    </div>
+
+                    <div class="rounded-md border border-gray-200 p-4">
+                        <p class="text-sm text-gray-500">Confirmees</p>
+                        <p class="mt-2 text-2xl font-bold text-green-600">{{ $confirmedSessions }}</p>
+                    </div>
+
+                    <div class="rounded-md border border-gray-200 p-4">
+                        <p class="text-sm text-gray-500">Annulees</p>
+                        <p class="mt-2 text-2xl font-bold text-red-600">{{ $cancelledSessions }}</p>
+                    </div>
                 </div>
             </div>
         </div>

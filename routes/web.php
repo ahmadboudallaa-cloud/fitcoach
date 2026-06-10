@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CoachController;
 use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SessionController;
+use App\Http\Controllers\Admin\StatisticController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -72,11 +73,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::delete('/admin/horaires/{availability}', [AvailabilityController::class, 'destroy'])->name('admin.availabilities.destroy');
 
     Route::get('/admin/seances', [SessionController::class, 'index'])->name('admin.seances');
+    Route::get('/admin/statistiques', [StatisticController::class, 'index'])->name('admin.statistiques');
 });
-
-Route::get('/admin/statistiques', function () {
-    return view('admin.statistiques');
-})->middleware(['auth', 'verified', 'role:admin'])->name('admin.statistiques');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
