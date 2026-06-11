@@ -56,6 +56,10 @@ Route::get('/coach/planning', [PlanningController::class, 'index'])
     ->middleware(['auth', 'verified', 'role:coach'])
     ->name('coach.planning');
 
+Route::patch('/coach/seances/{session}/valider', [PlanningController::class, 'confirm'])
+    ->middleware(['auth', 'verified', 'role:coach'])
+    ->name('coach.sessions.confirm');
+
 Route::get('/coach/adherents', function () {
     return view('coach.adherents');
 })->middleware(['auth', 'verified', 'role:coach'])->name('coach.adherents');

@@ -11,6 +11,12 @@
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Seances a venir</h3>
 
+                    @if (session('success'))
+                        <div class="mt-4 rounded-md bg-green-100 p-4 text-sm text-green-700">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     <div class="mt-6 overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="text-gray-600 border-b">
@@ -20,6 +26,7 @@
                                     <th class="py-3">Heure</th>
                                     <th class="py-3">Statut</th>
                                     <th class="py-3">Notes</th>
+                                    <th class="py-3">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,10 +53,23 @@
                                             @endif
                                         </td>
                                         <td class="py-3">{{ $session->notes ?? '-' }}</td>
+                                        <td class="py-3">
+                                            @if ($session->status === 'pending')
+                                                <form method="POST" action="{{ route('coach.sessions.confirm', $session) }}">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="text-green-600 font-semibold">
+                                                        Valider
+                                                    </button>
+                                                </form>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="py-4 text-gray-600">
+                                        <td colspan="6" class="py-4 text-gray-600">
                                             Aucune seance programmee.
                                         </td>
                                     </tr>
