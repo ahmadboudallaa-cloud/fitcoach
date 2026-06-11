@@ -56,6 +56,14 @@ Route::get('/coach/planning', [PlanningController::class, 'index'])
     ->middleware(['auth', 'verified', 'role:coach'])
     ->name('coach.planning');
 
+Route::get('/coach/seances/{session}/modifier', [PlanningController::class, 'edit'])
+    ->middleware(['auth', 'verified', 'role:coach'])
+    ->name('coach.sessions.edit');
+
+Route::put('/coach/seances/{session}', [PlanningController::class, 'update'])
+    ->middleware(['auth', 'verified', 'role:coach'])
+    ->name('coach.sessions.update');
+
 Route::patch('/coach/seances/{session}/valider', [PlanningController::class, 'confirm'])
     ->middleware(['auth', 'verified', 'role:coach'])
     ->name('coach.sessions.confirm');

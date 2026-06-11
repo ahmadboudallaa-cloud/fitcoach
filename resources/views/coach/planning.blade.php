@@ -54,17 +54,21 @@
                                         </td>
                                         <td class="py-3">{{ $session->notes ?? '-' }}</td>
                                         <td class="py-3">
-                                            @if ($session->status === 'pending')
-                                                <form method="POST" action="{{ route('coach.sessions.confirm', $session) }}">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" class="text-green-600 font-semibold">
-                                                        Valider
-                                                    </button>
-                                                </form>
-                                            @else
-                                                -
-                                            @endif
+                                            <div class="flex items-center gap-3">
+                                                <a href="{{ route('coach.sessions.edit', $session) }}" class="text-indigo-600 font-semibold">
+                                                    Modifier
+                                                </a>
+
+                                                @if ($session->status === 'pending')
+                                                    <form method="POST" action="{{ route('coach.sessions.confirm', $session) }}">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="text-green-600 font-semibold">
+                                                            Valider
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
