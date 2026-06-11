@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Adherent\ReservationController;
 use App\Http\Controllers\Adherent\SessionController as AdherentSessionController;
+use App\Http\Controllers\Coach\PlanningController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,9 +52,9 @@ Route::get('/coach/dashboard', function () {
     return view('dashboards.coach');
 })->middleware(['auth', 'verified', 'role:coach'])->name('coach.dashboard');
 
-Route::get('/coach/planning', function () {
-    return view('coach.planning');
-})->middleware(['auth', 'verified', 'role:coach'])->name('coach.planning');
+Route::get('/coach/planning', [PlanningController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:coach'])
+    ->name('coach.planning');
 
 Route::get('/coach/adherents', function () {
     return view('coach.adherents');
