@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\AvailabilityController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\Admin\StatisticController;
+use App\Http\Controllers\Adherent\ReservationController;
+use App\Http\Controllers\Adherent\SessionController as AdherentSessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,13 +31,17 @@ Route::get('/adherent/dashboard', function () {
     return view('dashboards.adherent');
 })->middleware(['auth', 'verified', 'role:adherent'])->name('adherent.dashboard');
 
-Route::get('/adherent/reservation', function () {
-    return view('adherent.reservation');
-})->middleware(['auth', 'verified', 'role:adherent'])->name('adherent.reservation');
+Route::get('/adherent/reservation', [ReservationController::class, 'create'])
+    ->middleware(['auth', 'verified', 'role:adherent'])
+    ->name('adherent.reservation');
 
-Route::get('/adherent/seances', function () {
-    return view('adherent.seances');
-})->middleware(['auth', 'verified', 'role:adherent'])->name('adherent.seances');
+Route::post('/adherent/reservation', [ReservationController::class, 'store'])
+    ->middleware(['auth', 'verified', 'role:adherent'])
+    ->name('adherent.reservation.store');
+
+Route::get('/adherent/seances', [AdherentSessionController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:adherent'])
+    ->name('adherent.seances');
 
 Route::get('/adherent/programme', function () {
     return view('adherent.programme');
