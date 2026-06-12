@@ -63,4 +63,17 @@ class PlanningController extends Controller
 
         return redirect()->route('coach.planning')->with('success', 'Seance validee avec succes.');
     }
+
+    public function cancel(CoachingSession $session): RedirectResponse
+    {
+        if ($session->coach_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $session->update([
+            'status' => 'cancelled',
+        ]);
+
+        return redirect()->route('coach.planning')->with('success', 'Seance annulee avec succes.');
+    }
 }

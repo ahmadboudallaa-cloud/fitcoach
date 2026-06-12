@@ -68,6 +68,16 @@
                                                         </button>
                                                     </form>
                                                 @endif
+
+                                                @if ($session->status !== 'cancelled')
+                                                    <form method="POST" action="{{ route('coach.sessions.cancel', $session) }}" onsubmit="return confirm('Annuler cette seance ?')">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="text-red-600 font-semibold">
+                                                            Annuler
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
