@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Adherent\ReservationController;
 use App\Http\Controllers\Adherent\SessionController as AdherentSessionController;
+use App\Http\Controllers\Coach\AdherentController;
 use App\Http\Controllers\Coach\PlanningController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,9 +73,13 @@ Route::patch('/coach/seances/{session}/annuler', [PlanningController::class, 'ca
     ->middleware(['auth', 'verified', 'role:coach'])
     ->name('coach.sessions.cancel');
 
-Route::get('/coach/adherents', function () {
-    return view('coach.adherents');
-})->middleware(['auth', 'verified', 'role:coach'])->name('coach.adherents');
+Route::get('/coach/adherents', [AdherentController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:coach'])
+    ->name('coach.adherents');
+
+Route::get('/coach/adherents/{adherent}', [AdherentController::class, 'show'])
+    ->middleware(['auth', 'verified', 'role:coach'])
+    ->name('coach.adherents.show');
 
 Route::get('/admin/dashboard', function () {
     return view('dashboards.admin');

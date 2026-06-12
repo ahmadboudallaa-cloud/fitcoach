@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasOne(CoachProfile::class);
     }
 
+    public function adherentProfile(): HasOne
+    {
+        return $this->hasOne(AdherentProfile::class);
+    }
+
     public function coachAvailabilities(): HasMany
     {
         return $this->hasMany(CoachAvailability::class, 'coach_id');
