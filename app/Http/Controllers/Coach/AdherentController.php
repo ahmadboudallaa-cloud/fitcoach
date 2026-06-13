@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Coach;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreGoalProgressRequest;
 use App\Http\Requests\StorePhysicalAssessmentRequest;
 use App\Http\Requests\StoreTrainingProgramRequest;
 use App\Models\CoachingSession;
+use App\Models\GoalProgress;
 use App\Models\PhysicalAssessment;
 use App\Models\TrainingProgram;
 use App\Models\User;
@@ -54,7 +56,12 @@ class AdherentController extends Controller
             ->latest()
             ->get();
 
-        return view('coach.adherents-show', compact('adherent', 'sessions', 'assessments', 'programs'));
+        $goals = GoalProgress::where('adherent_id', $adherent->id)
+            ->where('coach_id', auth()->id())
+            ->orderByDesc('progress_date')
+            ->get();
+
+        return view('coach.adherents-show', compact('adherent', 'sessions', 'assessments', 'programs', 'goals'));
     }
 
     public function storeAssessment(StorePhysicalAssessmentRequest $request, User $adherent): RedirectResponse
@@ -109,6 +116,28 @@ class AdherentController extends Controller
         }
 
         return redirect()->route('coach.adherents.show', $adherent)->with('success', 'Programme ajoute avec succes.');
+    }
+
+    public function storeGoal(StoreGoalProgressRequest $request, User $adherent): RedirectResponse
+    {
+        if ($adherent->role !== 'adherent') {
+            abort(404);
+        }
+
+        $this->checkAdherentAccess($adherent);
+
+        $validated = $request->validated();
+
+        GoalProgress::create([
+            'adherent_id' => $adherent->id,
+            'coach_id' => auth()->id(),
+            'goal' => $validated['goal'],
+            'progress' => $validated['progress'],
+            'progress_date' => $validated['progress_date'],
+            'notes' => $validated['notes'] ?? null,
+        ]);
+
+        return redirect()->route('coach.adherents.show', $adherent)->with('success', 'Objectif ajoute avec succes.');
     }
 
     private function checkAdherentAccess(User $adherent): void

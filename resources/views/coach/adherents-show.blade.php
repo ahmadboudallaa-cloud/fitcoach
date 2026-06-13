@@ -231,6 +231,86 @@
 
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Ajouter un objectif et une progression</h3>
+
+                    <form method="POST" action="{{ route('coach.adherents.goals.store', $adherent) }}" class="mt-6 space-y-4">
+                        @csrf
+
+                        <div>
+                            <x-input-label for="goal" value="Objectif" />
+                            <x-text-input id="goal" name="goal" type="text" class="mt-1 block w-full" value="{{ old('goal') }}" required />
+                            <x-input-error :messages="$errors->get('goal')" class="mt-2" />
+                        </div>
+
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div>
+                                <x-input-label for="progress" value="Progression" />
+                                <x-text-input id="progress" name="progress" type="number" min="0" max="100" class="mt-1 block w-full" value="{{ old('progress', 0) }}" required />
+                                <x-input-error :messages="$errors->get('progress')" class="mt-2" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="progress_date" value="Date" />
+                                <x-text-input id="progress_date" name="progress_date" type="date" class="mt-1 block w-full" value="{{ old('progress_date', now()->toDateString()) }}" required />
+                                <x-input-error :messages="$errors->get('progress_date')" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <x-input-label for="goal_notes" value="Notes" />
+                            <textarea id="goal_notes" name="notes" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ old('notes') }}</textarea>
+                            <x-input-error :messages="$errors->get('notes')" class="mt-2" />
+                        </div>
+
+                        <x-primary-button>Ajouter l'objectif</x-primary-button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Objectifs et progression</h3>
+
+                    <div class="mt-6 overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-gray-600 border-b">
+                                <tr>
+                                    <th class="py-3">Date</th>
+                                    <th class="py-3">Objectif</th>
+                                    <th class="py-3">Progression</th>
+                                    <th class="py-3">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($goals as $goal)
+                                    <tr class="border-b">
+                                        <td class="py-3">{{ $goal->progress_date }}</td>
+                                        <td class="py-3">{{ $goal->goal }}</td>
+                                        <td class="py-3">
+                                            <div class="flex items-center gap-3">
+                                                <div class="h-2 w-32 rounded bg-gray-200">
+                                                    <div class="h-2 rounded bg-indigo-600" style="width: {{ $goal->progress }}%"></div>
+                                                </div>
+                                                <span>{{ $goal->progress }}%</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-3">{{ $goal->notes ?? '-' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="py-4 text-gray-600">
+                                            Aucun objectif ajoute.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Seances avec cet adherent</h3>
 
                     <div class="mt-6 overflow-x-auto">

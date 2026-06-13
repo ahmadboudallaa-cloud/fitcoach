@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(TrainingProgram::class, 'adherent_id');
     }
+
+    public function goalProgress(): HasMany
+    {
+        return $this->hasMany(GoalProgress::class, 'adherent_id');
+    }
 }
