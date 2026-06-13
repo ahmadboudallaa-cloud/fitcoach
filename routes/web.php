@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CoachController;
 use App\Http\Controllers\Admin\AvailabilityController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\Admin\StatisticController;
@@ -93,9 +94,9 @@ Route::post('/coach/adherents/{adherent}/objectifs', [AdherentController::class,
     ->middleware(['auth', 'verified', 'role:coach'])
     ->name('coach.adherents.goals.store');
 
-Route::get('/admin/dashboard', function () {
-    return view('dashboards.admin');
-})->middleware(['auth', 'verified', 'role:admin'])->name('admin.dashboard');
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:admin'])
+    ->name('admin.dashboard');
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/coachs', [CoachController::class, 'index'])->name('admin.coachs');
