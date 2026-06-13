@@ -124,6 +124,113 @@
 
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Ajouter un programme d'entrainement</h3>
+
+                    <form method="POST" action="{{ route('coach.adherents.programs.store', $adherent) }}" class="mt-6 space-y-4">
+                        @csrf
+
+                        <div>
+                            <x-input-label for="title" value="Titre du programme" />
+                            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" value="{{ old('title') }}" required />
+                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="description" value="Description" />
+                            <textarea id="description" name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ old('description') }}</textarea>
+                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                        </div>
+
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div>
+                                <x-input-label for="start_date" value="Date debut" />
+                                <x-text-input id="start_date" name="start_date" type="date" class="mt-1 block w-full" value="{{ old('start_date') }}" />
+                                <x-input-error :messages="$errors->get('start_date')" class="mt-2" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="end_date" value="Date fin" />
+                                <x-text-input id="end_date" name="end_date" type="date" class="mt-1 block w-full" value="{{ old('end_date') }}" />
+                                <x-input-error :messages="$errors->get('end_date')" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div class="rounded-md border border-gray-200 p-4">
+                            <h4 class="font-semibold text-gray-900">Premier exercice</h4>
+
+                            <div class="mt-4">
+                                <x-input-label for="exercise_name" value="Nom de l'exercice" />
+                                <x-text-input id="exercise_name" name="exercise_name" type="text" class="mt-1 block w-full" value="{{ old('exercise_name') }}" />
+                                <x-input-error :messages="$errors->get('exercise_name')" class="mt-2" />
+                            </div>
+
+                            <div class="mt-4 grid gap-4 md:grid-cols-2">
+                                <div>
+                                    <x-input-label for="sets" value="Series" />
+                                    <x-text-input id="sets" name="sets" type="number" class="mt-1 block w-full" value="{{ old('sets') }}" />
+                                    <x-input-error :messages="$errors->get('sets')" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <x-input-label for="reps" value="Repetitions" />
+                                    <x-text-input id="reps" name="reps" type="number" class="mt-1 block w-full" value="{{ old('reps') }}" />
+                                    <x-input-error :messages="$errors->get('reps')" class="mt-2" />
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <x-input-label for="exercise_notes" value="Notes exercice" />
+                                <textarea id="exercise_notes" name="exercise_notes" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ old('exercise_notes') }}</textarea>
+                                <x-input-error :messages="$errors->get('exercise_notes')" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <x-primary-button>Ajouter le programme</x-primary-button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Programmes d'entrainement</h3>
+
+                    <div class="mt-6 space-y-4">
+                        @forelse ($programs as $program)
+                            <div class="rounded-md border border-gray-200 p-4">
+                                <h4 class="font-semibold text-gray-900">{{ $program->title }}</h4>
+                                <p class="mt-2 text-sm text-gray-600">{{ $program->description ?? '-' }}</p>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Du {{ $program->start_date ?? '-' }} au {{ $program->end_date ?? '-' }}
+                                </p>
+
+                                <div class="mt-4">
+                                    <p class="font-semibold text-sm text-gray-900">Exercices</p>
+
+                                    @forelse ($program->exercises as $exercise)
+                                        <p class="mt-2 text-sm text-gray-700">
+                                            {{ $exercise->name }}
+                                            -
+                                            {{ $exercise->sets ?? '-' }} series
+                                            x
+                                            {{ $exercise->reps ?? '-' }} reps
+                                            @if ($exercise->notes)
+                                                - {{ $exercise->notes }}
+                                            @endif
+                                        </p>
+                                    @empty
+                                        <p class="mt-2 text-sm text-gray-600">Aucun exercice ajoute.</p>
+                                    @endforelse
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-sm text-gray-600">Aucun programme ajoute.</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Seances avec cet adherent</h3>
 
                     <div class="mt-6 overflow-x-auto">
