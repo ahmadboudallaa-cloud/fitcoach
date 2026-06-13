@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Coach;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePhysicalAssessmentRequest;
 use App\Models\CoachingSession;
+use App\Models\PhysicalAssessment;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class AdherentController extends Controller
@@ -28,13 +31,7 @@ class AdherentController extends Controller
             abort(404);
         }
 
-        $hasSessionWithCoach = CoachingSession::where('adherent_id', $adherent->id)
-            ->where('coach_id', auth()->id())
-            ->exists();
-
-        if (! $hasSessionWithCoach) {
-            abort(403);
-        }
+        $this->checkAdherentAccess($adherent);
 
         $adherent->load('adherentProfile');
 
@@ -44,6 +41,45 @@ class AdherentController extends Controller
             ->orderBy('start_time')
             ->get();
 
-        return view('coach.adherents-show', compact('adherent', 'sessions'));
+        $assessments = PhysicalAssessment::where('adherent_id', $adherent->id)
+            ->where('coach_id', auth()->id())
+            ->orderByDesc('assessment_date')
+            ->get();
+
+        return view('coach.adherents-show', compact('adherent', 'sessions', 'assessments'));
+    }
+
+    public function storeAssessment(StorePhysicalAssessmentRequest $request, User $adherent): RedirectResponse
+    {
+        if ($adherent->role !== 'adherent') {
+            abort(404);
+        }
+
+        $this->checkAdherentAccess($adherent);
+
+        $validated = $request->validated();
+
+        PhysicalAssessment::create([
+            'adherent_id' => $adherent->id,
+            'coach_id' => auth()->id(),
+            'assessment_date' => $validated['assessment_date'],
+            'weight' => $validated['weight'] ?? null,
+            'height' => $validated['height'] ?? null,
+            'body_fat' => $validated['body_fat'] ?? null,
+            'notes' => $validated['notes'] ?? null,
+        ]);
+
+        return redirect()->route('coach.adherents.show', $adherent)->with('success', 'Bilan physique ajoute avec succes.');
+    }
+
+    private function checkAdherentAccess(User $adherent): void
+    {
+        $hasSessionWithCoach = CoachingSession::where('adherent_id', $adherent->id)
+            ->where('coach_id', auth()->id())
+            ->exists();
+
+        if (! $hasSessionWithCoach) {
+            abort(403);
+        }
     }
 }

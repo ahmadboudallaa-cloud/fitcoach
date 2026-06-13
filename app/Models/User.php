@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(CoachingSession::class, 'adherent_id');
     }
+
+    public function physicalAssessments(): HasMany
+    {
+        return $this->hasMany(PhysicalAssessment::class, 'adherent_id');
+    }
 }

@@ -81,6 +81,10 @@ Route::get('/coach/adherents/{adherent}', [AdherentController::class, 'show'])
     ->middleware(['auth', 'verified', 'role:coach'])
     ->name('coach.adherents.show');
 
+Route::post('/coach/adherents/{adherent}/bilans', [AdherentController::class, 'storeAssessment'])
+    ->middleware(['auth', 'verified', 'role:coach'])
+    ->name('coach.adherents.assessments.store');
+
 Route::get('/admin/dashboard', function () {
     return view('dashboards.admin');
 })->middleware(['auth', 'verified', 'role:admin'])->name('admin.dashboard');
