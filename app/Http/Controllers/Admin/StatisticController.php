@@ -25,6 +25,7 @@ class StatisticController extends Controller
         $confirmedSessions = CoachingSession::where('status', 'confirmed')->count();
         $pendingSessions = CoachingSession::where('status', 'pending')->count();
         $cancelledSessions = CoachingSession::where('status', 'cancelled')->count();
+        $completedSessions = CoachingSession::where('status', 'completed')->count();
 
         $fillRate = 0;
 
@@ -41,6 +42,7 @@ class StatisticController extends Controller
             'confirmedSessions',
             'pendingSessions',
             'cancelledSessions',
+            'completedSessions',
             'fillRate'
         ));
     }
